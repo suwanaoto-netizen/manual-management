@@ -1,0 +1,1706 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>マニュアル管理 商談分析レポート | 2026年1月〜現在</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root {
+  --bg: #FAF8F3;
+  --bg-elevated: #FFFFFF;
+  --ink: #1A1A1A;
+  --ink-soft: #555555;
+  --ink-mute: #888888;
+  --line: #E5DFD2;
+  --line-strong: #1A1A1A;
+  --accent: #C8553D;
+  --accent-soft: #E9B384;
+  --teal: #2C5F5D;
+  --gold: #B8860B;
+  --serif: 'Noto Serif JP', Georgia, serif;
+  --sans: 'Inter', -apple-system, 'Hiragino Kaku Gothic ProN', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.6;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 60px 48px 80px;
+}
+
+/* ===== Header ===== */
+.masthead {
+  border-top: 4px solid var(--line-strong);
+  border-bottom: 1px solid var(--line);
+  padding: 24px 0 32px;
+  margin-bottom: 48px;
+  position: relative;
+}
+
+.masthead-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 16px;
+}
+
+.masthead-meta .issue {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.masthead h1 {
+  font-family: var(--serif);
+  font-size: 52px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+}
+
+.masthead h1 .accent {
+  color: var(--accent);
+  font-style: italic;
+}
+
+.masthead-sub {
+  font-size: 16px;
+  color: var(--ink-soft);
+  max-width: 720px;
+  line-height: 1.7;
+}
+
+.masthead-decoration {
+  position: absolute;
+  top: 24px;
+  right: 0;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--ink-mute);
+  text-align: right;
+  line-height: 1.4;
+}
+
+/* ===== Section ===== */
+section {
+  margin-bottom: 72px;
+}
+
+.section-header {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 16px;
+  align-items: baseline;
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.section-number {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--accent);
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}
+
+.section-title {
+  font-family: var(--serif);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.section-lede {
+  grid-column: 2;
+  font-size: 14px;
+  color: var(--ink-soft);
+  margin-top: 6px;
+}
+
+/* ===== Stat Grid ===== */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 32px;
+}
+
+.stat {
+  padding: 24px 20px;
+  border-right: 1px solid var(--line);
+  position: relative;
+}
+
+.stat:last-child { border-right: none; }
+
+.stat-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-mute);
+  margin-bottom: 12px;
+}
+
+.stat-value {
+  font-family: var(--serif);
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.stat-value .unit {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--ink-mute);
+  margin-left: 4px;
+}
+
+.stat-sub {
+  font-size: 11px;
+  color: var(--ink-mute);
+  margin-top: 8px;
+  font-family: var(--mono);
+}
+
+/* ===== Chart Card ===== */
+.chart-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--line);
+  padding: 28px;
+  margin-bottom: 20px;
+}
+
+.chart-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.chart-title {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.chart-meta {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+}
+
+.chart-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.chart-wrapper.h-360 { height: 360px; }
+.chart-wrapper.h-320 { height: 320px; }
+.chart-wrapper.h-280 { height: 280px; }
+.chart-wrapper.h-400 { height: 400px; }
+
+.chart-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* ===== Table ===== */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-top: 16px;
+}
+
+.data-table thead th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--line-strong);
+  font-weight: 500;
+}
+
+.data-table thead th.num { text-align: right; }
+
+.data-table tbody td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.data-table tbody td.num {
+  text-align: right;
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.data-table tbody tr:hover { background: rgba(200, 85, 61, 0.04); }
+
+/* ===== Toggle Row ===== */
+.data-table tbody tr.toggle-row { cursor: pointer; }
+.data-table tbody tr.toggle-row td:first-child {
+  position: relative;
+  padding-left: 28px;
+}
+.data-table tbody tr.toggle-row td:first-child::before {
+  content: "▸";
+  position: absolute;
+  left: 12px;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--accent);
+  transition: transform 0.2s ease;
+  display: inline-block;
+}
+.data-table tbody tr.toggle-row.is-open td:first-child::before {
+  transform: rotate(90deg);
+}
+.detail-row { display: none; background: rgba(200, 85, 61, 0.02) !important; }
+.detail-row.is-open { display: table-row; }
+.detail-row > td { padding: 0 !important; border-bottom: 1px solid var(--line) !important; }
+.detail-row:hover { background: rgba(200, 85, 61, 0.02) !important; }
+
+.detail-list {
+  padding: 16px 12px 16px 40px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px 24px;
+}
+.detail-item {
+  font-size: 12px;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px dotted var(--line);
+}
+.detail-item:last-child, .detail-item:nth-last-child(2):nth-child(odd) {
+  border-bottom: none;
+}
+.detail-item a {
+  color: var(--ink);
+  text-decoration: none;
+  flex: 1;
+  font-weight: 500;
+}
+.detail-item a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+.detail-item .ext-icon {
+  color: var(--ink-mute);
+  font-size: 10px;
+  margin-left: 2px;
+}
+.detail-item .stage-badge {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.05em;
+  color: var(--ink-mute);
+  background: var(--bg);
+  padding: 2px 6px;
+  border-radius: 2px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.detail-item .stage-badge.won {
+  background: var(--accent);
+  color: white;
+}
+.detail-item .stage-badge.near {
+  background: var(--teal);
+  color: white;
+}
+
+@media (max-width: 700px) {
+  .detail-list { grid-template-columns: 1fr; }
+}
+
+/* ===== Pull Quote / Insight ===== */
+.insight {
+  background: var(--ink);
+  color: var(--bg);
+  padding: 32px 36px;
+  margin: 24px 0;
+  position: relative;
+}
+
+.insight::before {
+  content: "INSIGHT";
+  position: absolute;
+  top: -10px;
+  left: 24px;
+  background: var(--accent);
+  color: white;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  padding: 4px 10px;
+  font-weight: 500;
+}
+
+.insight p {
+  font-family: var(--serif);
+  font-size: 18px;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+.insight p .hl {
+  background: var(--accent);
+  padding: 2px 6px;
+  color: white;
+}
+
+/* ===== Reason Card Grid ===== */
+.reason-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.reason-card {
+  border: 1px solid var(--line);
+  padding: 20px 22px;
+  background: var(--bg-elevated);
+  position: relative;
+}
+
+.reason-card.featured {
+  border-color: var(--accent);
+  border-width: 2px;
+}
+
+.reason-card.featured::before {
+  content: "重点";
+  position: absolute;
+  top: -10px;
+  right: 16px;
+  background: var(--accent);
+  color: white;
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 3px 8px;
+  letter-spacing: 0.1em;
+}
+
+.reason-card-header {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.reason-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+}
+
+.reason-card h4 {
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.reason-card p {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+
+/* ===== Highlight Box ===== */
+.highlight-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.highlight-box {
+  border: 1px solid var(--line);
+  padding: 24px;
+  background: var(--bg-elevated);
+  position: relative;
+}
+
+.highlight-box.primary {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+
+.highlight-rank {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--ink-mute);
+  margin-bottom: 8px;
+}
+
+.highlight-box.primary .highlight-rank { color: var(--accent-soft); }
+
+.highlight-title {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+
+.highlight-detail {
+  font-size: 13px;
+  line-height: 1.6;
+  opacity: 0.85;
+}
+
+.highlight-num {
+  font-family: var(--mono);
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--accent);
+  margin-top: 12px;
+}
+
+/* ===== Footer ===== */
+.footer {
+  margin-top: 80px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line-strong);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+/* ===== TOC ===== */
+.toc {
+  background: var(--bg-elevated);
+  border: 1px solid var(--line);
+  padding: 24px 28px;
+  margin-bottom: 56px;
+}
+
+.toc-title {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 16px;
+}
+
+.toc ol {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px 32px;
+  counter-reset: toc;
+}
+
+.toc ol li {
+  counter-increment: toc;
+  font-family: var(--serif);
+  font-size: 15px;
+  padding-bottom: 8px;
+  border-bottom: 1px dotted var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.toc ol li::before {
+  content: counter(toc, decimal-leading-zero);
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent);
+  margin-right: 10px;
+  font-weight: 500;
+}
+
+.toc ol li a {
+  color: var(--ink);
+  text-decoration: none;
+  flex: 1;
+}
+
+.toc ol li a:hover { color: var(--accent); }
+
+.toc ol li .toc-page {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--ink-mute);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+  .container { padding: 32px 20px; }
+  .masthead h1 { font-size: 36px; }
+  .stat-grid { grid-template-columns: repeat(2, 1fr); }
+  .stat:nth-child(2) { border-right: none; }
+  .stat:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+  .chart-grid-2, .reason-grid, .highlight-grid, .toc ol { grid-template-columns: 1fr; }
+}
+
+@media print {
+  body { background: white; }
+  section { page-break-inside: avoid; }
+}
+
+/* ===== Monthly Revenue Section ===== */
+.monthly-section {
+  background: var(--ink);
+  color: var(--bg);
+  padding: 40px 36px;
+  margin-bottom: 56px;
+  position: relative;
+  border: 1px solid var(--ink);
+}
+
+.monthly-section::before {
+  content: "MONTHLY REVENUE";
+  position: absolute;
+  top: -10px;
+  left: 24px;
+  background: var(--accent);
+  color: white;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  padding: 4px 10px;
+  font-weight: 500;
+}
+
+.monthly-section h2 {
+  font-family: var(--serif);
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
+}
+
+.monthly-section .monthly-sub {
+  font-size: 12px;
+  color: var(--accent-soft);
+  margin-bottom: 24px;
+  font-family: var(--mono);
+  letter-spacing: 0.05em;
+}
+
+.monthly-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid rgba(255,255,255,0.15);
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+  margin-bottom: 28px;
+}
+
+.monthly-summary > div {
+  padding: 16px 20px;
+  border-right: 1px solid rgba(255,255,255,0.15);
+}
+
+.monthly-summary > div:last-child { border-right: none; }
+
+.monthly-summary .label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--accent-soft);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.monthly-summary .val {
+  font-family: var(--serif);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.monthly-summary .val .unit {
+  font-size: 14px;
+  font-weight: 400;
+  opacity: 0.6;
+  margin-left: 4px;
+}
+
+.monthly-chart-wrap {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 4px;
+  padding: 20px 16px 12px;
+}
+
+.monthly-hint {
+  font-size: 11px;
+  color: var(--accent-soft);
+  margin-top: 12px;
+  text-align: center;
+  font-family: var(--mono);
+  letter-spacing: 0.05em;
+}
+
+/* Detail Panel (deals list per month) */
+.monthly-detail {
+  margin-top: 20px;
+  background: var(--bg);
+  color: var(--ink);
+  border-radius: 4px;
+  padding: 20px 24px;
+  display: none;
+  animation: slideDown 0.25s ease;
+}
+
+.monthly-detail.is-open { display: block; }
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.monthly-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+}
+
+.monthly-detail-title {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.monthly-detail-meta {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-mute);
+  letter-spacing: 0.05em;
+}
+
+.monthly-detail-close {
+  background: none;
+  border: 1px solid var(--line);
+  color: var(--ink-mute);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  padding: 4px 10px;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.monthly-detail-close:hover {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+
+.deal-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+.deal-item {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 16px;
+  padding: 10px 0;
+  border-bottom: 1px dotted var(--line);
+  align-items: baseline;
+  font-size: 13px;
+}
+
+.deal-item:last-child { border-bottom: none; }
+
+.deal-account {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.deal-account a {
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.deal-account a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.deal-account .ext {
+  color: var(--ink-mute);
+  font-size: 10px;
+}
+
+.deal-tag {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.05em;
+  color: var(--ink-mute);
+  background: var(--bg);
+  padding: 2px 6px;
+  border-radius: 2px;
+}
+
+.deal-tag.churn { background: #1A1A1A; color: white; }
+.deal-tag.upsell { background: var(--teal); color: white; }
+
+.deal-owner {
+  font-size: 12px;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+.deal-owner::before {
+  content: "担当 ";
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--ink-mute);
+  margin-right: 4px;
+  letter-spacing: 0.05em;
+}
+
+.deal-amount {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.deal-amount.negative { color: #C8553D; }
+
+@media (max-width: 700px) {
+  .monthly-summary { grid-template-columns: 1fr; }
+  .monthly-summary > div { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.15); }
+  .deal-item { grid-template-columns: 1fr; gap: 4px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- ===== MASTHEAD ===== -->
+  <header class="masthead">
+    <div class="masthead-meta">
+      <span>X MILE INSIGHT REPORT</span>
+      <span class="issue">Vol.02 / 2026.05</span>
+      <span>SALES DATA ANALYSIS</span>
+    </div>
+    <h1>マニュアル管理<br><span class="accent">商談分析</span>レポート</h1>
+    <p class="masthead-sub">
+      Salesforceに記録された2026年1月〜現在のマニュアル管理関連商談544件を対象に、ファネル分布・受失注理由・業態別/規模別の進行傾向を分析。勝ち筋セグメントと改善ポイントを明らかにする。
+    </p>
+    <div class="masthead-decoration">
+      DATA SOURCE: SALESFORCE<br>
+      PERIOD: 2026.01.01 - 2026.05.20<br>
+      N = 544
+    </div>
+  </header>
+
+  <!-- ===== TOC ===== -->
+  <nav class="toc">
+    <div class="toc-title">CONTENTS</div>
+    <ol>
+      <li><a href="#monthly">月次受注実績</a><span class="toc-page">P.00</span></li>
+      <li><a href="#funnel">ファネル分布</a><span class="toc-page">P.01</span></li>
+      <li><a href="#reasons">受注・失注理由</a><span class="toc-page">P.02</span></li>
+      <li><a href="#segment">業態・規模分析</a><span class="toc-page">P.03</span></li>
+      <li><a href="#sweet-spot">勝ち筋セグメント</a><span class="toc-page">P.04</span></li>
+    </ol>
+  </nav>
+
+  <!-- ===== 0. MONTHLY REVENUE ===== -->
+  <section id="monthly" class="monthly-section" style="margin-bottom: 56px;">
+    <h2>月次受注実績</h2>
+    <div class="monthly-sub">2026.01 - 2026.05 / CONTRACT DATE BASIS</div>
+
+    <div class="monthly-summary">
+      <div>
+        <div class="label">受注総額</div>
+        <div class="val">¥6.38<span class="unit">M</span></div>
+      </div>
+      <div>
+        <div class="label">受注件数</div>
+        <div class="val">18<span class="unit">件</span></div>
+      </div>
+      <div>
+        <div class="label">月平均</div>
+        <div class="val">¥1.06<span class="unit">M/月</span></div>
+      </div>
+    </div>
+
+    <div class="monthly-chart-wrap">
+      <canvas id="monthlyChart" role="img" aria-label="月次受注金額と件数の推移。1月4万円1件、2月208.8万円5件、3月87.8万円4件、4月333.2万円5件、5月32.7万円2件、7月マイナス28.8万円1件（チャーン）。"></canvas>
+    </div>
+
+    <div class="monthly-hint">▸ 棒グラフをクリックすると、その月の受注一覧（取引先・営業担当・SFリンク）が下に展開されます</div>
+
+    <div id="monthlyDetail" class="monthly-detail">
+      <!-- JSで生成 -->
+    </div>
+  </section>
+
+  <!-- ===== 1. FUNNEL ===== -->
+  <section id="funnel">
+    <div class="section-header">
+      <div class="section-number">§ 01</div>
+      <div>
+        <h2 class="section-title">セールスファネル分布</h2>
+        <div class="section-lede">2026年1月以降に作成された商談のフェーズ別件数。失注が52.9%と過半数を占める。</div>
+      </div>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat">
+        <div class="stat-label">総商談数</div>
+        <div class="stat-value">544<span class="unit">件</span></div>
+        <div class="stat-sub">JAN - MAY 2026</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">初回面談実施</div>
+        <div class="stat-value">16.2<span class="unit">%</span></div>
+        <div class="stat-sub">88件</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">契約締結</div>
+        <div class="stat-value">3.3<span class="unit">%</span></div>
+        <div class="stat-sub">18件</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">失注率</div>
+        <div class="stat-value">52.9<span class="unit">%</span></div>
+        <div class="stat-sub">288件</div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-card-header">
+        <div class="chart-title">フェーズ別件数分布</div>
+        <div class="chart-meta">FIG.01 / N=544</div>
+      </div>
+      <div class="chart-wrapper h-400">
+        <canvas id="funnelChart" role="img" aria-label="マニュアル管理関連商談のフェーズ別件数"></canvas>
+      </div>
+    </div>
+
+    <div class="insight">
+      <p>初回面談（設定 + 実施）で<span class="hl">全体の27.0%が滞留</span>。<br>失注52.9%が過半数を占め、商談プロセスの早期段階での絞り込みが課題と考えられる。</p>
+    </div>
+  </section>
+
+  <!-- ===== 2. REASONS ===== -->
+  <section id="reasons">
+    <div class="section-header">
+      <div class="section-number">§ 02</div>
+      <div>
+        <h2 class="section-title">受注・失注理由の分析</h2>
+        <div class="section-lede">受注18件・失注288件の理由を分解。価格・タイミング・代替手段の3軸が支配的。</div>
+      </div>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat">
+        <div class="stat-label">受注件数</div>
+        <div class="stat-value">18<span class="unit">件</span></div>
+        <div class="stat-sub">うちアップセル 7件</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">受注金額合計</div>
+        <div class="stat-value">¥6.38<span class="unit">M</span></div>
+        <div class="stat-sub">F-LINE 200万円含む</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">失注件数</div>
+        <div class="stat-value">288<span class="unit">件</span></div>
+        <div class="stat-sub">勝率 5.9%</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">価格関連失注</div>
+        <div class="stat-value">52.4<span class="unit">%</span></div>
+        <div class="stat-sub">費用 + 予算 + 自社安価</div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-card-header">
+        <div class="chart-title">失注理由の内訳（複数選択あり）</div>
+        <div class="chart-meta">FIG.02 / N=288</div>
+      </div>
+      <div class="chart-wrapper h-360">
+        <canvas id="lossChart" role="img" aria-label="失注理由の内訳"></canvas>
+      </div>
+    </div>
+
+    <h3 style="font-family: var(--serif); font-size: 18px; margin: 32px 0 4px;">受注理由の傾向</h3>
+    <p style="font-size: 13px; color: var(--ink-soft); margin-bottom: 16px;">受注理由項目は未入力のため、価値合意内容から決め手を抽出。</p>
+
+    <div class="reason-grid">
+      <div class="reason-card featured">
+        <div class="reason-card-header">
+          <span class="reason-tag">REASON 01</span>
+        </div>
+        <h4>業務標準化・属人化解消</h4>
+        <p>岡山木村屋、樫の木製作所、オカモト通商、トップ工業など。ベテラン依存の解消と作業標準化が最頻出のキーワード。</p>
+      </div>
+      <div class="reason-card featured">
+        <div class="reason-card-header">
+          <span class="reason-tag">REASON 02</span>
+        </div>
+        <h4>競合より安価で同等品質</h4>
+        <p>林化学工業、群栄化学工業など。Teachme Biz/tebiki/BIDEO STEPと比較した上で、価格優位と機能の十分性で決定。</p>
+      </div>
+      <div class="reason-card">
+        <div class="reason-card-header">
+          <span class="reason-tag">REASON 03</span>
+        </div>
+        <h4>外国人従業員教育</h4>
+        <p>滋賀日野自動車、丸八製菓。外国籍人材の教育品質向上が刺さるテーマ。</p>
+      </div>
+      <div class="reason-card">
+        <div class="reason-card-header">
+          <span class="reason-tag">REASON 04</span>
+        </div>
+        <h4>既存顧客のアップセル</h4>
+        <p>F-LINE、SBSフレイト、サクラ運送、ベストロジ、柴田合成。アカウント使い回しや研修コース機能が好評。受注18件中7件がアップセル。</p>
+      </div>
+    </div>
+
+    <div class="insight">
+      <p>競合として<span class="hl">Teachme Biz / tebiki / BIDEO STEP</span>の名前が頻出。一方で価格優位を背景に「Teachme/tebikiから切り替え」「比較してX Mileを採用」という受注パターンも発生。価格を武器にした競合リプレースが新たな勝ち筋に。</p>
+    </div>
+  </section>
+
+  <!-- ===== 3. SEGMENT ===== -->
+  <section id="segment">
+    <div class="section-header">
+      <div class="section-number">§ 03</div>
+      <div>
+        <h2 class="section-title">業態・規模別の進行分析</h2>
+        <div class="section-lede">商談実施169件のうち、フェーズ3（価値合意）以降に進んだ81件を業態×規模で分解。</div>
+      </div>
+    </div>
+
+    <div class="chart-grid-2">
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <div class="chart-title">業態構成（商談実施全体）</div>
+          <div class="chart-meta">FIG.03 / N=169</div>
+        </div>
+        <div class="chart-wrapper h-320">
+          <canvas id="typeAllChart" role="img" aria-label="業態別の商談実施件数"></canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <div class="chart-title">規模構成（商談実施全体）</div>
+          <div class="chart-meta">FIG.04 / N=169</div>
+        </div>
+        <div class="chart-wrapper h-320">
+          <canvas id="sizeAllChart" role="img" aria-label="規模別の商談実施件数"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-grid-2" style="margin-top: 20px;">
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <div class="chart-title">業態別 フェーズ3以降 進行率</div>
+          <div class="chart-meta">FIG.05</div>
+        </div>
+        <div class="chart-wrapper h-360">
+          <canvas id="typeRateChart" role="img" aria-label="業態別のフェーズ3以降進行率"></canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <div class="chart-title">規模別 フェーズ3以降 進行率</div>
+          <div class="chart-meta">FIG.06</div>
+        </div>
+        <div class="chart-wrapper h-360">
+          <canvas id="sizeRateChart" role="img" aria-label="規模別のフェーズ3以降進行率"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 4. SWEET SPOT ===== -->
+  <section id="sweet-spot">
+    <div class="section-header">
+      <div class="section-number">§ 04</div>
+      <div>
+        <h2 class="section-title">勝ち筋セグメント</h2>
+        <div class="section-lede">業態×規模クロスでフェーズ3以降の上位を抽出。製造業×中規模が突出。</div>
+      </div>
+    </div>
+
+    <div class="highlight-grid">
+      <div class="highlight-box primary">
+        <div class="highlight-rank">RANK 01 / SWEET SPOT</div>
+        <div class="highlight-title">製造業 × 中規模 (81-200名)</div>
+        <div class="highlight-detail">フェーズ3以降の17.3%を占める最も太い金脈。受注実績も6件。</div>
+        <div class="highlight-num">14件</div>
+      </div>
+      <div class="highlight-box">
+        <div class="highlight-rank">RANK 02</div>
+        <div class="highlight-title">運送 × 中規模 (81-200名)</div>
+        <div class="highlight-detail">運送業のスイートスポット。受注1件含む。</div>
+        <div class="highlight-num" style="color: var(--teal);">6件</div>
+      </div>
+      <div class="highlight-box">
+        <div class="highlight-rank">RANK 02 (tie)</div>
+        <div class="highlight-title">製造業 × 中堅 (201-500名)</div>
+        <div class="highlight-detail">製造業は規模を問わず幅広く進行。受注1件含む。</div>
+        <div class="highlight-num" style="color: var(--teal);">6件</div>
+      </div>
+      <div class="highlight-box">
+        <div class="highlight-rank">RANK 02 (tie)</div>
+        <div class="highlight-title">製造業 × 大手 (501+名)</div>
+        <div class="highlight-detail">大手製造業の進行も健闘。検討に時間がかかる傾向。</div>
+        <div class="highlight-num" style="color: var(--teal);">6件</div>
+      </div>
+    </div>
+
+    <h3 style="font-family: var(--serif); font-size: 18px; margin: 40px 0 4px;">業態×規模 クロス集計（フェーズ3以降 上位）</h3>
+    <p style="font-size: 12px; color: var(--ink-soft); margin-bottom: 16px;">▸ 行をクリックすると取引先一覧が展開されます。取引先名をクリックするとSalesforceの取引先ページが開きます。</p>
+    <table class="data-table" id="crossTable">
+      <thead>
+        <tr>
+          <th>業態</th>
+          <th>規模</th>
+          <th class="num">件数</th>
+          <th class="num">構成比</th>
+        </tr>
+      </thead>
+      <tbody id="crossTableBody">
+        <!-- JSで動的に生成 -->
+      </tbody>
+    </table>
+
+    <div class="insight">
+      <p>コアターゲットは<span class="hl">「製造業の中規模〜大手」「運送業の中規模」</span>に集中。<br>大手製造業は進行率は中規模に劣るものの絶対数では6件と健闘しており、商談数を増やせばさらに伸びる可能性がある。</p>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <span>X MILE × CLAUDE</span>
+    <span>GENERATED 2026.05.20</span>
+    <span>END OF REPORT</span>
+  </footer>
+
+</div>
+
+<script>
+Chart.defaults.font.family = "'Inter', -apple-system, 'Hiragino Kaku Gothic ProN', sans-serif";
+Chart.defaults.font.size = 11;
+Chart.defaults.color = '#555555';
+
+// ===== 月次受注 =====
+const SF_ACC_BASE = 'https://xmile3.lightning.force.com/lightning/r/Account/';
+const SF_OPP_BASE = 'https://xmile3.lightning.force.com/lightning/r/Opportunity/';
+
+const monthlyData = {
+  '2026-01': {
+    amount: 40000,
+    count: 1,
+    deals: [
+      { account: '株式会社ベスト・ロジスティクス・パートナーズ', accId: '001RB00000UQ9XqYAL', oppId: '006RB00000pk8QDYAY', amount: 40000, owner: '三井 隆史', tag: 'アップセル' },
+    ]
+  },
+  '2026-02': {
+    amount: 2088000,
+    count: 5,
+    deals: [
+      { account: '群栄化学工業株式会社', accId: '0015i000019sDf8AAE', oppId: '006RB00000pLtQkYAK', amount: 432000, owner: '三井 隆史', tag: '' },
+      { account: 'サクラ運送有限会社', accId: '0015i00000Wmjw2AAB', oppId: '006RB00000qBBS1YAO', amount: 528000, owner: '佐久間 勇起', tag: 'アップセル' },
+      { account: 'オカモト通商株式会社', accId: '0015i00000WpPMgAAN', oppId: '006RB00000qT7Y1YAK', amount: 288000, owner: '池田 大', tag: '' },
+      { account: 'BXテンパル株式会社埼玉工場', accId: '0015i000019sGBGAA2', oppId: '006RB00000rEdKjYAK', amount: 480000, owner: '池田 大', tag: '' },
+      { account: '株式会社樫の木製作所', accId: '0015i00001BiZ75AAF', oppId: '006RB00000pOdXVYA0', amount: 360000, owner: '池田 大', tag: '' },
+    ]
+  },
+  '2026-03': {
+    amount: 878000,
+    count: 4,
+    deals: [
+      { account: '株式会社丸八製菓', accId: '001RB0000143K5tYAE', oppId: '006RB00000urP1eYAE', amount: 288000, owner: '池田 大', tag: '' },
+      { account: 'トップ工業株式会社', accId: '0015i00000Y8KEcAAN', oppId: '006RB00000s4FSrYAM', amount: 288000, owner: '池田 大', tag: '' },
+      { account: '株式会社柴田合成', accId: '0015i00001DJfvSAAT', oppId: '006RB00000vHATZYA4', amount: 14000, owner: '池田 大', tag: 'アップセル' },
+      { account: 'SBSフレイトサービス株式会社', accId: '0015i00000WpNJNAA3', oppId: '006RB00000su8yHYAQ', amount: 288000, owner: '三井 隆史', tag: 'アップセル' },
+    ]
+  },
+  '2026-04': {
+    amount: 3332000,
+    count: 5,
+    deals: [
+      { account: '株式会社岡山木村屋', accId: '0015i000019sFgiAAE', oppId: '006RB00000yUk1HYAS', amount: 432000, owner: '池田 大', tag: '' },
+      { account: '株式会社柴田合成', accId: '0015i00001DJfvSAAT', oppId: '006RB00000xXsMEYA0', amount: 12000, owner: '池田 大', tag: 'アップセル' },
+      { account: 'F-LINE株式会社', accId: '0015i00000Y8LEpAAN', oppId: '006RB00000t1ix0YAA', amount: 2000000, owner: '小田 友貴', tag: 'アップセル' },
+      { account: '長良通運株式会社', accId: '0015i00000WoziWAAR', oppId: '006RB00000suxmKYAQ', amount: 500000, owner: '森 聖弥', tag: '' },
+      { account: '林化学工業株式会社', accId: '0015i000013vDhRAAU', oppId: '006RB00000pjnGwYAI', amount: 388000, owner: '三井 隆史', tag: '' },
+    ]
+  },
+  '2026-05': {
+    amount: 327200,
+    count: 2,
+    deals: [
+      { account: '滋賀日野自動車株式会社', accId: '001RB00000jVe0AYAS', oppId: '006RB00000yWWGjYAO', amount: 307200, owner: '池田 大', tag: '' },
+      { account: '株式会社ベスト・ロジスティクス・パートナーズ', accId: '001RB00000UQ9XqYAL', oppId: '006RB000010RPbJYAW', amount: 20000, owner: '三井 隆史', tag: 'アップセル' },
+    ]
+  },
+  '2026-07': {
+    amount: -288000,
+    count: 1,
+    deals: [
+      { account: '株式会社敬明', accId: '0015i00000a2myOAAQ', oppId: '006RB000011Kz33YAC', amount: -288000, owner: '池田 大', tag: 'チャーン' },
+    ]
+  },
+};
+
+const monthLabels = ['2026-01','2026-02','2026-03','2026-04','2026-05','2026-07'];
+const monthDisplay = ['1月','2月','3月','4月','5月','7月'];
+const monthAmounts = monthLabels.map(m => monthlyData[m].amount);
+const monthCounts = monthLabels.map(m => monthlyData[m].count);
+
+const monthlyChart = new Chart(document.getElementById('monthlyChart'), {
+  type: 'bar',
+  data: {
+    labels: monthDisplay,
+    datasets: [{
+      label: '受注金額',
+      data: monthAmounts,
+      backgroundColor: monthAmounts.map(v => v < 0 ? '#888888' : '#C8553D'),
+      borderWidth: 0,
+      borderRadius: 2
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    onClick: (event, elements) => {
+      if (elements.length > 0) {
+        const idx = elements[0].index;
+        showMonthDetail(monthLabels[idx], monthDisplay[idx]);
+      }
+    },
+    onHover: (event, elements) => {
+      event.native.target.style.cursor = elements.length ? 'pointer' : 'default';
+    },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: '#1A1A1A',
+        titleFont: { size: 12, weight: 500 },
+        bodyFont: { size: 12 },
+        padding: 10,
+        callbacks: {
+          title: (items) => monthDisplay[items[0].dataIndex] + ' 受注実績',
+          label: (ctx) => {
+            const amount = ctx.parsed.y;
+            const count = monthCounts[ctx.dataIndex];
+            const sign = amount < 0 ? '-¥' : '¥';
+            const abs = Math.abs(amount).toLocaleString();
+            return [`金額: ${sign}${abs}`, `件数: ${count}件`, '', 'クリックで詳細表示 ↓'];
+          }
+        }
+      },
+      datalabels: false
+    },
+    scales: {
+      x: {
+        grid: { display: false },
+        ticks: { color: '#E9B384', font: { size: 12, weight: 500 } }
+      },
+      y: {
+        grid: { color: 'rgba(255,255,255,0.08)' },
+        ticks: {
+          color: 'rgba(255,255,255,0.5)',
+          font: { size: 10 },
+          callback: (v) => {
+            if (v === 0) return '¥0';
+            const abs = Math.abs(v) / 10000;
+            const sign = v < 0 ? '-' : '';
+            return `${sign}¥${abs}万`;
+          }
+        }
+      }
+    },
+    animation: { duration: 600 }
+  },
+  plugins: [{
+    id: 'countLabels',
+    afterDatasetsDraw(chart) {
+      const ctx = chart.ctx;
+      const meta = chart.getDatasetMeta(0);
+      meta.data.forEach((bar, i) => {
+        const amount = monthAmounts[i];
+        const count = monthCounts[i];
+        const x = bar.x;
+        ctx.save();
+        ctx.fillStyle = '#FAF8F3';
+        ctx.font = '500 11px Inter, sans-serif';
+        ctx.textAlign = 'center';
+        // 金額（バーの上）
+        const amountText = amount < 0
+          ? `-¥${(Math.abs(amount)/10000).toFixed(0)}万`
+          : `¥${(amount/10000).toFixed(0)}万`;
+        const yAmount = amount >= 0 ? bar.y - 22 : bar.y + 16;
+        ctx.fillText(amountText, x, yAmount);
+        // 件数（金額の下）
+        ctx.fillStyle = '#E9B384';
+        ctx.font = '400 10px JetBrains Mono, monospace';
+        const yCount = amount >= 0 ? bar.y - 8 : bar.y + 30;
+        ctx.fillText(`${count}件`, x, yCount);
+        ctx.restore();
+      });
+    }
+  }]
+});
+
+function showMonthDetail(monthKey, monthLabel) {
+  const data = monthlyData[monthKey];
+  const detail = document.getElementById('monthlyDetail');
+  const dealsHtml = data.deals.map(d => {
+    const tagClass = d.tag === 'チャーン' ? 'churn' : (d.tag === 'アップセル' ? 'upsell' : '');
+    const tagHtml = d.tag ? `<span class="deal-tag ${tagClass}">${d.tag}</span>` : '';
+    const amountClass = d.amount < 0 ? 'negative' : '';
+    const amountText = d.amount < 0
+      ? `-¥${Math.abs(d.amount).toLocaleString()}`
+      : `¥${d.amount.toLocaleString()}`;
+    return `
+      <div class="deal-item">
+        <div class="deal-account">
+          <a href="${SF_ACC_BASE}${d.accId}/view" target="_blank" rel="noopener">${d.account}<span class="ext"> ↗</span></a>
+          ${tagHtml}
+        </div>
+        <div class="deal-owner">${d.owner}</div>
+        <div class="deal-amount ${amountClass}">${amountText}</div>
+      </div>
+    `;
+  }).join('');
+
+  const totalText = data.amount < 0
+    ? `-¥${Math.abs(data.amount).toLocaleString()}`
+    : `¥${data.amount.toLocaleString()}`;
+
+  detail.innerHTML = `
+    <div class="monthly-detail-header">
+      <div>
+        <div class="monthly-detail-title">${monthLabel} 受注一覧</div>
+        <div class="monthly-detail-meta">${data.count}件 / 合計 ${totalText}</div>
+      </div>
+      <button class="monthly-detail-close" onclick="closeMonthDetail()">× CLOSE</button>
+    </div>
+    <div class="deal-list">${dealsHtml}</div>
+  `;
+  detail.classList.add('is-open');
+  // スクロール
+  setTimeout(() => {
+    detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, 100);
+}
+
+function closeMonthDetail() {
+  document.getElementById('monthlyDetail').classList.remove('is-open');
+}
+
+// ===== Fig.01 ファネル =====
+const stages = [
+  { name: '01-初回面談設定', count: 59, color: '#D4A574' },
+  { name: '02-初回面談実施', count: 88, color: '#B8860B' },
+  { name: '03-価値合意', count: 35, color: '#2C5F5D' },
+  { name: '04-導入推進者合意', count: 21, color: '#1F4544' },
+  { name: '05-決裁者合意', count: 5, color: '#143030' },
+  { name: '06-契約合意', count: 2, color: '#0A1C1C' },
+  { name: '07-契約締結', count: 18, color: '#C8553D' },
+  { name: '10-合流', count: 28, color: '#888888' },
+  { name: '00-失注', count: 288, color: '#1A1A1A' }
+];
+const totalFunnel = stages.reduce((s, x) => s + x.count, 0);
+
+new Chart(document.getElementById('funnelChart'), {
+  type: 'bar',
+  data: {
+    labels: stages.map(s => s.name),
+    datasets: [{
+      data: stages.map(s => s.count),
+      backgroundColor: stages.map(s => s.color),
+      borderWidth: 0
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: (ctx) => `${ctx.parsed.x}件 (${(ctx.parsed.x/totalFunnel*100).toFixed(1)}%)`
+        }
+      }
+    },
+    scales: {
+      x: { beginAtZero: true, grid: { color: '#E5DFD2' }, ticks: { color: '#888' } },
+      y: { ticks: { color: '#1A1A1A', font: { size: 11 } }, grid: { display: false } }
+    }
+  }
+});
+
+// ===== Fig.02 失注理由 =====
+const lossData = [
+  { name: '費用をかけたくない', cnt: 77, pct: 26.7 },
+  { name: '既にあるもので代用可', cnt: 61, pct: 21.2 },
+  { name: '連絡不通', cnt: 57, pct: 19.8 },
+  { name: '予算時期で再検討', cnt: 53, pct: 18.4 },
+  { name: '自社でやったほうが安い', cnt: 21, pct: 7.3 },
+  { name: '機能不足（課題解決不可）', cnt: 21, pct: 7.3 },
+  { name: '他社システムで解決可能', cnt: 7, pct: 2.4 },
+  { name: '競合他社が優位', cnt: 2, pct: 0.7 }
+];
+
+new Chart(document.getElementById('lossChart'), {
+  type: 'bar',
+  data: {
+    labels: lossData.map(d => d.name),
+    datasets: [{
+      data: lossData.map(d => d.cnt),
+      backgroundColor: ['#C8553D','#D4685A','#E08077','#888888','#2C5F5D','#4A7170','#B8860B','#D4A574'],
+      borderWidth: 0
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: (ctx) => `${ctx.parsed.x}件 (${lossData[ctx.dataIndex].pct}%)` } }
+    },
+    scales: {
+      x: { beginAtZero: true, grid: { color: '#E5DFD2' }, ticks: { color: '#888' } },
+      y: { ticks: { color: '#1A1A1A', font: { size: 11 } }, grid: { display: false } }
+    }
+  }
+});
+
+// ===== Fig.03 業態構成 =====
+const typeAll = {
+  '製造業': 68, '運送': 43, 'その他': 17, '倉庫': 11, '自動車整備関連': 9,
+  '建設': 6, '運送(周辺領域)': 3, '飲食': 3, '廃棄物リサイクル': 2,
+  '警備': 1, '医療': 1, '荷主': 1, '旅客': 1, 'プレス': 1, '未入力': 2
+};
+const typePalette = ['#1A1A1A','#C8553D','#2C5F5D','#B8860B','#D4685A','#4A7170','#888888','#D4A574','#E08077','#E9B384','#6B8E8D','#A0A0A0','#CCCCCC','#777777','#AAAAAA'];
+
+new Chart(document.getElementById('typeAllChart'), {
+  type: 'doughnut',
+  data: {
+    labels: Object.keys(typeAll),
+    datasets: [{ data: Object.values(typeAll), backgroundColor: typePalette, borderWidth: 2, borderColor: '#FFFFFF' }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    cutout: '55%',
+    plugins: {
+      legend: { position: 'right', labels: { boxWidth: 8, font: { size: 10 }, padding: 6 } },
+      tooltip: { callbacks: { label: (ctx) => `${ctx.label}: ${ctx.parsed}件 (${(ctx.parsed/169*100).toFixed(1)}%)` } }
+    }
+  }
+});
+
+// ===== Fig.04 規模構成 =====
+const sizeLabels = ['大手(501+)','中堅(201-500)','中規模(81-200)','小規模(31-80)','零細(1-30)','未入力'];
+const sizeAll = [38, 37, 42, 17, 9, 26];
+
+new Chart(document.getElementById('sizeAllChart'), {
+  type: 'bar',
+  data: {
+    labels: sizeLabels,
+    datasets: [{
+      data: sizeAll,
+      backgroundColor: ['#1A1A1A','#2C5F5D','#C8553D','#B8860B','#D4A574','#888888'],
+      borderWidth: 0
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: (ctx) => `${ctx.parsed.y}件 (${(ctx.parsed.y/169*100).toFixed(1)}%)` } }
+    },
+    scales: {
+      y: { beginAtZero: true, grid: { color: '#E5DFD2' }, ticks: { color: '#888' } },
+      x: { ticks: { font: { size: 10 }, color: '#1A1A1A', maxRotation: 30 }, grid: { display: false } }
+    }
+  }
+});
+
+// ===== Fig.05 業態別 進行率 =====
+const typeRateData = [
+  { name: '警備', cnt: 1, total: 1, rate: 100 },
+  { name: 'プレス', cnt: 1, total: 1, rate: 100 },
+  { name: '医療', cnt: 1, total: 1, rate: 100 },
+  { name: '建設', cnt: 4, total: 6, rate: 66.7 },
+  { name: '自動車整備関連', cnt: 5, total: 9, rate: 55.6 },
+  { name: '製造業', cnt: 36, total: 68, rate: 52.9 },
+  { name: '運送', cnt: 20, total: 43, rate: 46.5 },
+  { name: '倉庫', cnt: 5, total: 11, rate: 45.5 },
+  { name: 'その他', cnt: 6, total: 17, rate: 35.3 },
+  { name: '飲食', cnt: 1, total: 3, rate: 33.3 },
+  { name: '運送(周辺領域)', cnt: 1, total: 3, rate: 33.3 }
+];
+
+new Chart(document.getElementById('typeRateChart'), {
+  type: 'bar',
+  data: {
+    labels: typeRateData.map(d => d.name),
+    datasets: [{
+      data: typeRateData.map(d => d.rate),
+      backgroundColor: typeRateData.map(d => d.total >= 5 ? '#C8553D' : '#D4A574'),
+      borderWidth: 0
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: (ctx) => { const d = typeRateData[ctx.dataIndex]; return `${d.rate}% (${d.cnt}/${d.total}件)`; } } }
+    },
+    scales: {
+      x: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%', color: '#888' }, grid: { color: '#E5DFD2' } },
+      y: { ticks: { color: '#1A1A1A', font: { size: 11 } }, grid: { display: false } }
+    }
+  }
+});
+
+// ===== Fig.06 規模別 進行率 =====
+const sizeRateData = [
+  { name: '零細(1-30)', cnt: 6, total: 9, rate: 66.7 },
+  { name: '中規模(81-200)', cnt: 26, total: 42, rate: 61.9 },
+  { name: '小規模(31-80)', cnt: 7, total: 17, rate: 41.2 },
+  { name: '大手(501+)', cnt: 15, total: 38, rate: 39.5 },
+  { name: '中堅(201-500)', cnt: 13, total: 37, rate: 35.1 }
+];
+
+new Chart(document.getElementById('sizeRateChart'), {
+  type: 'bar',
+  data: {
+    labels: sizeRateData.map(d => d.name),
+    datasets: [{
+      data: sizeRateData.map(d => d.rate),
+      backgroundColor: ['#D4A574','#C8553D','#4A7170','#2C5F5D','#888888'],
+      borderWidth: 0
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: (ctx) => { const d = sizeRateData[ctx.dataIndex]; return `${d.rate}% (${d.cnt}/${d.total}件)`; } } }
+    },
+    scales: {
+      x: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%', color: '#888' }, grid: { color: '#E5DFD2' } },
+      y: { ticks: { color: '#1A1A1A', font: { size: 11 } }, grid: { display: false } }
+    }
+  }
+});
+
+// ===== クロス集計表（トグル付き） =====
+const SF_BASE = 'https://xmile3.lightning.force.com/lightning/r/Account/';
+const TOTAL_PHASE3 = 81;
+
+const crossData = [
+  { type: '製造業', size: '中規模(81-200)', accounts: [
+    { id: '0015i000019sGBGAA2', name: 'BXテンパル株式会社埼玉工場', stage: '07-契約締結' },
+    { id: '0015i00000WpNJaAAN', name: 'イトウ製菓株式会社', stage: '03-価値合意' },
+    { id: '0015i00000Y8KEcAAN', name: 'トップ工業株式会社', stage: '07-契約締結' },
+    { id: '0015i000019sEXMAA2', name: '株式会社コーヨーラド', stage: '03-価値合意' },
+    { id: '001RB0000143K5tYAE', name: '株式会社丸八製菓', stage: '07-契約締結' },
+    { id: '0015i00001DJfvSAAT', name: '株式会社柴田合成', stage: '07-契約締結' },
+    { id: '0015i00001DJfvSAAT', name: '株式会社柴田合成（アップセル2件目）', stage: '07-契約締結' },
+    { id: '001RB00000oEHhEYAW', name: '岐阜食品株式会社', stage: '03-価値合意' },
+    { id: '001RB000012LFthYAG', name: '共同船舶株式会社', stage: '04-導入推進者合意' },
+    { id: '0015i000019sFqAAAU', name: '甲斐食産株式会社', stage: '03-価値合意' },
+    { id: '001RB00001Avx6nYAB', name: '松尾製菓株式会社', stage: '03-価値合意' },
+    { id: '0015i000013vDY3AAM', name: '特許機器株式会社', stage: '04-導入推進者合意' },
+    { id: '0015i00000Y8JRiAAN', name: '不二精機株式会社', stage: '03-価値合意' },
+    { id: '0015i000013vDhRAAU', name: '林化学工業株式会社', stage: '07-契約締結' },
+  ]},
+  { type: '運送', size: '中規模(81-200)', accounts: [
+    { id: '0015i00000WpDCJAA3', name: 'まるほ食品株式会社', stage: '04-導入推進者合意' },
+    { id: '0015i00000WmfUvAAJ', name: '株式会社斎藤英次商店', stage: '04-導入推進者合意' },
+    { id: '0015i00000Y8L12AAF', name: '株式会社藤木運送', stage: '04-導入推進者合意' },
+    { id: '0015i00000WoziWAAR', name: '長良通運株式会社', stage: '07-契約締結' },
+    { id: '0015i00000WpEPKAA3', name: '道栄荷役株式会社', stage: '03-価値合意' },
+    { id: '0015i00000WpOeDAAV', name: '日正運輸株式会社', stage: '04-導入推進者合意' },
+  ]},
+  { type: '製造業', size: '中堅(201-500)', accounts: [
+    { id: '001RB00000UQJLtYAP', name: 'サンユレック株式会社', stage: '03-価値合意' },
+    { id: '0015i00000QbRWMAA3', name: 'ヤマトプロテック株式会社', stage: '03-価値合意' },
+    { id: '0015i000019sFHgAAM', name: '沖食スイハン株式会社', stage: '04-導入推進者合意' },
+    { id: '0015i000014xx9HAAQ', name: '株式会社汎建製作所', stage: '03-価値合意' },
+    { id: '0015i00001E0mlZAAR', name: '株式会社美十', stage: '03-価値合意' },
+    { id: '0015i000019sDf8AAE', name: '群栄化学工業株式会社', stage: '07-契約締結' },
+  ]},
+  { type: '運送', size: '未入力', accounts: [
+    { id: '0015i00000WpJxjAAF', name: 'アトラスカーゴサービス株式会社小牧物流センター', stage: '03-価値合意' },
+    { id: '0015i00001DKSYlAAP', name: '花王ロジスティクス株式会社', stage: '04-導入推進者合意' },
+    { id: '001RB00000UQ9XqYAL', name: '株式会社ベスト・ロジスティクス・パートナーズ', stage: '07-契約締結' },
+    { id: '001RB00000UQ9XqYAL', name: '株式会社ベスト・ロジスティクス・パートナーズ（2件目）', stage: '07-契約締結' },
+    { id: '0015i00000Wp820AAB', name: '株式会社京葉興業', stage: '04-導入推進者合意' },
+    { id: '001RB00000QihhGYAR', name: '株式会社三豊', stage: '03-価値合意' },
+  ]},
+  { type: '製造業', size: '大手(501+)', accounts: [
+    { id: '001RB00000OkGYDYA3', name: 'アール・ビー・コントロールズ株式会社', stage: '03-価値合意' },
+    { id: '0015i000013vDQ7AAM', name: 'タニコー株式会社', stage: '03-価値合意' },
+    { id: '0015i00000Y8GzRAAV', name: '株式会社ファーストフーズ', stage: '06-契約合意' },
+    { id: '001RB00001EFSl0YAH', name: '株式会社山田養蜂場', stage: '03-価値合意' },
+    { id: '0015i00000WmkNyAAJ', name: '株式会社赤福', stage: '03-価値合意' },
+    { id: '001J3000008yJMsIAM', name: '三笠産業株式会社', stage: '04-導入推進者合意' },
+  ]},
+  { type: '製造業', size: '小規模(31-80)', accounts: [
+    { id: '0015i00000Y8GSwAAN', name: '株式会社ファウスト', stage: '03-価値合意' },
+    { id: '0015i00001BiZ75AAF', name: '株式会社樫の木製作所', stage: '07-契約締結' },
+    { id: '001RB00000SkbFoYAJ', name: '株式会社三星', stage: '03-価値合意' },
+    { id: '0015i00000Y8FjsAAF', name: '株式会社大川製作所', stage: '03-価値合意' },
+  ]},
+  { type: '製造業', size: '未入力', accounts: [
+    { id: '001RB000019XhDRYA0', name: '株式会社山形屋海苔店沼津工場', stage: '03-価値合意' },
+    { id: '001RB00000QMe5IYAT', name: '山栄食品工業株式会社', stage: '03-価値合意' },
+    { id: '001RB00000QMeYpYAL', name: '山芳製菓株式会社', stage: '04-導入推進者合意' },
+    { id: '001RB000019xljZYAQ', name: '日弘ビックス株式会社神戸工場', stage: '03-価値合意' },
+  ]},
+  { type: '運送', size: '中堅(201-500)', accounts: [
+    { id: '0015i00000WpNJNAA3', name: 'SBSフレイトサービス株式会社', stage: '07-契約締結' },
+    { id: '0015i00000Wmjt2AAB', name: '株式会社UACJ物流', stage: '06-契約合意' },
+    { id: '0015i00000Y8LHkAAN', name: '東邦興産株式会社', stage: '04-導入推進者合意' },
+  ]},
+  { type: '運送', size: '大手(501+)', accounts: [
+    { id: '0015i00000Y8LEpAAN', name: 'F-LINE株式会社', stage: '07-契約締結' },
+    { id: '0015i00000WmjIlAAJ', name: 'SBSゼンツウ株式会社', stage: '05-決裁者合意' },
+    { id: '0015i00000bsWbCAAU', name: '株式会社新開トランスポートシステムズ', stage: '03-価値合意' },
+  ]},
+  { type: '自動車整備関連', size: '中規模(81-200)', accounts: [
+    { id: '0015i00000Wp6oUAAR', name: '熊本日野自動車株式会社', stage: '04-導入推進者合意' },
+    { id: '001RB00000jVe0AYAS', name: '滋賀日野自動車株式会社', stage: '07-契約締結' },
+  ]},
+  { type: '自動車整備関連', size: '中堅(201-500)', accounts: [
+    { id: '0015i00000Wp6x0AAB', name: '広島日野自動車株式会社', stage: '04-導入推進者合意' },
+    { id: '0015i00000Wp6ohAAB', name: '南九州日野自動車株式会社', stage: '04-導入推進者合意' },
+  ]},
+  { type: '倉庫', size: '小規模(31-80)', accounts: [
+    { id: '0015i00000WpNPGAA3', name: 'エフトランス株式会社', stage: '04-導入推進者合意' },
+    { id: '0015i00000WpCc8AAF', name: '津田物産株式会社', stage: '03-価値合意' },
+  ]},
+];
+
+const tbody = document.getElementById('crossTableBody');
+crossData.forEach((row, idx) => {
+  const count = row.accounts.length;
+  const pct = (count / TOTAL_PHASE3 * 100).toFixed(1);
+  const toggleId = `detail-${idx}`;
+
+  // メイン行
+  const tr = document.createElement('tr');
+  tr.className = 'toggle-row';
+  tr.setAttribute('data-target', toggleId);
+  tr.innerHTML = `
+    <td>${row.type}</td>
+    <td>${row.size}</td>
+    <td class="num">${count}</td>
+    <td class="num">${pct}%</td>
+  `;
+  tbody.appendChild(tr);
+
+  // 詳細行
+  const detailTr = document.createElement('tr');
+  detailTr.className = 'detail-row';
+  detailTr.id = toggleId;
+  const items = row.accounts.map(a => {
+    let badgeClass = '';
+    if (a.stage.startsWith('07')) badgeClass = 'won';
+    else if (a.stage.startsWith('05') || a.stage.startsWith('06')) badgeClass = 'near';
+    return `
+      <div class="detail-item">
+        <a href="${SF_BASE}${a.id}/view" target="_blank" rel="noopener">
+          ${a.name}<span class="ext-icon"> ↗</span>
+        </a>
+        <span class="stage-badge ${badgeClass}">${a.stage}</span>
+      </div>
+    `;
+  }).join('');
+  detailTr.innerHTML = `<td colspan="4"><div class="detail-list">${items}</div></td>`;
+  tbody.appendChild(detailTr);
+});
+
+// トグル動作
+tbody.querySelectorAll('.toggle-row').forEach(row => {
+  row.addEventListener('click', () => {
+    const targetId = row.getAttribute('data-target');
+    const detail = document.getElementById(targetId);
+    row.classList.toggle('is-open');
+    detail.classList.toggle('is-open');
+  });
+});
+</script>
+
+</body>
+</html>
